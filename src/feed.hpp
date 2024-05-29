@@ -9,13 +9,16 @@ class Feed
 
 public:
     Feed(QString title, QString content, QString desc, QDateTime dt, QString link);
+    Feed();
     ~Feed();
 
-    QDateTime getDate() { return datetime; }
-    QString getDesc() { return desc; }
-    QString getLink() { return link; } 
-    QString getTitle() { return title; }
-    QString getContent() { return content; }
+    const QDateTime getDate() { return datetime; }
+    const QString getDesc() { return desc; }
+    const QString getLink() { return link; } 
+    const QString getTitle() { return title; }
+    const QString getContent() { return content; }
+    void setInfo(QString title, QString content, QString desc, QDateTime dt, QString link);
+
 
 private:
     QString title;

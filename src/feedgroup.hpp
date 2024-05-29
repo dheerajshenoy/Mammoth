@@ -1,7 +1,6 @@
 #ifndef FEEDGROUP_HPP
 #define FEEDGROUP_HPP
 
-
 #include <qt6/QtCore/QString>
 #include <qt6/QtCore/QList>
 #include "feed.hpp"
@@ -23,6 +22,7 @@ class FeedGroup
     int getFeedCount() { return m_fc; }
     QString getTitle() { return m_title; }
     void setFeedCount(int count) { m_fc = count; }
+    const QVector<Feed> getFeedList() { return m_feeds; }
 
 private:
     QVector<Feed> m_feeds;

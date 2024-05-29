@@ -1,13 +1,13 @@
-#ifndef FEEDTABLE_CPP
-#define FEEDTABLE_CPP
+#ifndef FEEDGROUPTABLE_CPP
+#define FEEDGROUPTABLE_CPP
 
-#include "feedtable.hpp"
+#include "feedgrouptable.hpp"
 
-FeedTable::FeedTable(QWidget *parent)
+FeedGroupTable::FeedGroupTable(QWidget *parent)
 :QTableWidget(parent)
 {
 
-    QStringList Headers = { "Date", "Title"};
+    QStringList Headers = { "Feeds", "Title" };
 
     this->setSelectionBehavior(QAbstractItemView::SelectRows);
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -22,7 +22,7 @@ FeedTable::FeedTable(QWidget *parent)
     });
 }
 
-void FeedTable::keyPressEvent(QKeyEvent *e)
+void FeedGroupTable::keyPressEvent(QKeyEvent *e)
 {
     switch (e->key())
     {
@@ -38,26 +38,17 @@ void FeedTable::keyPressEvent(QKeyEvent *e)
             SelectItem();
             break;
 
-        case Qt::Key_H:
-            Back();
-        break;
-
         default:
             QTableWidget::keyPressEvent(e);
     }
 }
 
-void FeedTable::Back()
+void FeedGroupTable::SelectItem()
 {
-    emit goBack();
+    emit feedSelected(m_cur_y);
 }
 
-void FeedTable::SelectItem()
-{
-    emit feedSelected(m_fgn, m_cur_y);
-}
-
-void FeedTable::GotoItem(int i)
+void FeedGroupTable::GotoItem(int i)
 {
     if (m_cur_y + i < this->rowCount() && m_cur_y + i > -1)
     {
@@ -66,34 +57,14 @@ void FeedTable::GotoItem(int i)
     }
 }
 
-void FeedTable::setFeeds(QVector <Feed> &feedlist)
-{
-    this->setRowCount(feedlist.size());
-
-    for(int i=0; i < feedlist.size(); i++)
-    {
-        QTableWidgetItem *date = new QTableWidgetItem(feedlist[i].getDate().toString());
-        QTableWidgetItem *title = new QTableWidgetItem(feedlist[i].getTitle());
-
-        this->setItem(i, 0, date);
-        this->setItem(i, 1, title);
-    }
-}
-
-void FeedTable::setFeedGroupNumber(int fgn)
-{
-    m_fgn = fgn;
-}
-
-void FeedTable::setFeedNumber(int fn)
-{
-    m_fn = fn;
-
-}
-
-FeedTable::~FeedTable()
+void FeedGroupTable::setFeedGroup(FeedGroup group)
 {
 
 }
 
-#endif // !FEEDTABLE_CPP
+FeedGroupTable::~FeedGroupTable()
+{
+
+}
+
+#endif

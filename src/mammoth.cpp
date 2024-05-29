@@ -6,9 +6,6 @@
 Mammoth::Mammoth(QWidget *parent)
 :QMainWindow(parent)
 {
-    connect(m_networkManager, &QNetworkAccessManager::finished, this, &Mammoth::onFeedFetched);
-    m_widget->setLayout(m_layout);
-    this->setCentralWidget(m_widget);
     InitGui();
     InitKeybinds();
     ReadFeeds();
@@ -18,20 +15,17 @@ Mammoth::Mammoth(QWidget *parent)
 
 void Mammoth::InitGui()
 {
-    InitFeedTable();
-    m_layout->addWidget(m_feed_table);
-}
+    connect(m_networkManager, &QNetworkAccessManager::finished, this, &Mammoth::onFeedFetched);
+    connect(m_feedgroup_table, &FeedGroupTable::feedSelected, this, &Mammoth::SelectFeedGroup);
+    connect(m_feed_table, &FeedTable::goBack, this, &Mammoth::ShowFeedGroupPage);
+    connect(m_feed_table, &FeedTable::feedSelected, this, &Mammoth::SelectFeed);
+    connect(m_reader, &FeedReader::gotoFeeds, this, &Mammoth::ShowFeedsPage);
 
-void Mammoth::InitFeedTable()
-{
-    m_feed_table->setSelectionBehavior(QAbstractItemView::SelectRows);
-    m_feed_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    m_feed_table->horizontalHeader()->setStretchLastSection(true);
-
-    QStringList Headers = { "Feeds", "Title" };
-
-    m_feed_table->setHorizontalHeaderLabels(Headers);
-    m_feed_table->setColumnCount(Headers.size());
+    m_stackwidget->addWidget(m_feedgroup_table);
+    m_stackwidget->addWidget(m_feed_table);
+    m_stackwidget->addWidget(m_reader);
+    m_stackwidget->setCurrentWidget(m_feedgroup_table);
+    this->setCentralWidget(m_stackwidget);
 }
 
 void Mammoth::ReadFeeds()
@@ -76,26 +70,6 @@ void Mammoth::onFeedFetched(QNetworkReply *reply)
 void Mammoth::InitKeybinds()
 {
 }
-
-void Mammoth::GotoItem(int i)
-{
-}
-
-void Mammoth::Back()
-{
-
-}
-
-void Mammoth::MarkItem()
-{
-
-}
-
-void Mammoth::SelectItem()
-{
-
-}
-
 
 void Mammoth::ParseFeed(QIODevice *device)
 {
@@ -173,7 +147,7 @@ void Mammoth::ParseFeed(QIODevice *device)
 
 void Mammoth::displayFeedGroups()
 {
-    m_feed_table->setRowCount(m_feedGroups.size());
+    m_feedgroup_table->setRowCount(m_feedGroups.size());
     for(int i=0; i < m_feedGroups.size(); i++)
     {
         auto &fg = m_feedGroups[i];
@@ -181,10 +155,40 @@ void Mammoth::displayFeedGroups()
         QTableWidgetItem *feedcount = new QTableWidgetItem(QString::number(fg.getFeedCount()));
         QTableWidgetItem *title = new QTableWidgetItem(fg.getTitle());
 
-        m_feed_table->setItem(i, 0, feedcount);
-        m_feed_table->setItem(i, 1, title);
+        m_feedgroup_table->setItem(i, 0, feedcount);
+        m_feedgroup_table->setItem(i, 1, title);
     }
-    m_feed_table->setCurrentCell(m_cur_y, 1);
+    m_feedgroup_table->setCurrentCell(m_cur_y, 1);
+}
+
+void Mammoth::SelectFeedGroup(int feedGroupNum)
+{
+    FeedGroup fg = m_feedGroups[feedGroupNum];
+    //m_feed_table->setFeedGroup(fg);
+    m_feed_table->setFeeds(fg.getFeedList());
+    m_stackwidget->setCurrentWidget(m_feed_table);
+    /*m_reader->populate(fg);*/
+    /*m_reader->show();*/
+}
+
+void Mammoth::SelectFeed(int feedgroupNum, int feednum)
+{
+    auto f = m_feedGroups[feedgroupNum].getFeedList();
+    qDebug() << f.size();
+    //m_reader->setFeed(feed);
+    m_stackwidget->setCurrentWidget(m_reader);
+    /*m_reader->populate(fg);*/
+    /*m_reader->show();*/
+}
+
+void Mammoth::ShowFeedGroupPage()
+{
+    m_stackwidget->setCurrentWidget(m_feedgroup_table);
+}
+
+void Mammoth::ShowFeedsPage()
+{
+    m_stackwidget->setCurrentWidget(m_feed_table);
 }
 
 Mammoth::~Mammoth()

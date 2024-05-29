@@ -13,6 +13,7 @@
 #include <qt6/QtWidgets/QMenuBar>
 #include <qt6/QtWidgets/QHeaderView>
 #include <qt6/QtWidgets/QAbstractItemView>
+#include <qt6/QtWidgets/QStackedWidget>
 #include <qt6/QtGui/QShortcut>
 #include <qt6/QtGui/QKeySequence>
 #include <qt6/QtNetwork/QNetworkAccessManager>
@@ -22,7 +23,8 @@
 #include <qt6/QtCore/QDateTime>
 #include <qt6/QtCore/QVector>
 #include "feedtable.hpp"
-#include "feedgroup.hpp"
+#include "feedreader.hpp"
+#include "feedgrouptable.hpp"
 
 class Mammoth : public QMainWindow
 {
@@ -35,20 +37,19 @@ class Mammoth : public QMainWindow
     void FetchFeeds();
     void onFeedFetched(QNetworkReply *reply);
     void RefreshFeeds();
-    void InitFeedTable();
     void ParseFeed(QIODevice *device);
     void displayFeeds(QVector<Feed>);
     void displayFeedGroups();
     void InitKeybinds();
-    void Back();
-    void GotoItem(int i);
-    void SelectItem();
-    void MarkItem();
+    void SelectFeedGroup(int fgNum);
+    void SelectFeed(int feedGroupNum, int feedNum);
+    void ShowFeedGroupPage();
+    void ShowFeedsPage();
 
 private:
-    QWidget *m_widget = new QWidget();
-    QVBoxLayout *m_layout = new QVBoxLayout();
+    QStackedWidget *m_stackwidget = new QStackedWidget();
     QStringList m_sources = {};
+    FeedGroupTable *m_feedgroup_table = new FeedGroupTable();
     FeedTable *m_feed_table = new FeedTable();
     QNetworkAccessManager *m_networkManager = new QNetworkAccessManager(this);
     QVector<Feed> m_feedItems;
@@ -56,7 +57,7 @@ private:
     bool date_read = false, main_title_read = false, channel_read = false;
 
     int m_cur_y = 0;
-
+    FeedReader *m_reader = new FeedReader();
 };
 
 #endif
