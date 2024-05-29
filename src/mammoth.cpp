@@ -10,7 +10,6 @@ Mammoth::Mammoth(QWidget *parent)
     InitKeybinds();
     ReadFeeds();
     FetchFeeds();
-    displayFeedGroups();
 }
 
 void Mammoth::InitGui()
@@ -78,7 +77,8 @@ void Mammoth::ParseFeed(QIODevice *device)
     QDateTime dt;
     QString dt_format = "ddd, dd MMM yyyy HH:mm:ss +0000";
     QString title, link, content, desc;
-    QString groupTitle;
+
+    m_feedItems.clear();
 
     while (!xml.atEnd() && !xml.hasError())
     {
@@ -105,12 +105,10 @@ void Mammoth::ParseFeed(QIODevice *device)
 
                         else if (xml.name().toString() == "description")
                         {
-                            desc = xml.readElementText();
                         }
 
                         else if (xml.name().toString() == "item")
                         {
-                            QString title, link, pubDate;
                             while (!(xml.isEndElement() && xml.name().toString() == "item"))
                             {
                                 xml.readNext();
@@ -119,6 +117,11 @@ void Mammoth::ParseFeed(QIODevice *device)
                                     if (xml.name().toString() == "title")
                                     {
                                         title = xml.readElementText();
+                                    }
+
+                                    else if (xml.name().toString() == "description")
+                                    {
+                                        desc = xml.readElementText();
                                     }
 
                                     else if (xml.name().toString() == "link")
@@ -132,16 +135,18 @@ void Mammoth::ParseFeed(QIODevice *device)
                                     }
                                 }
                             }
+                            m_feedItems.append(Feed(title, content, desc, dt, link));
                         }
                     }
+
                 }
             }
         }
-        m_feedItems.append(Feed(title, content, desc, dt, link));
     }
 
     fg.setFeeds(m_feedItems);
     m_feedGroups.append(fg);
+
     displayFeedGroups();
 }
 
@@ -155,6 +160,8 @@ void Mammoth::displayFeedGroups()
         QTableWidgetItem *feedcount = new QTableWidgetItem(QString::number(fg.getFeedCount()));
         QTableWidgetItem *title = new QTableWidgetItem(fg.getTitle());
 
+        auto d = fg.getFeedList()[0];
+
         m_feedgroup_table->setItem(i, 0, feedcount);
         m_feedgroup_table->setItem(i, 1, title);
     }
@@ -164,8 +171,8 @@ void Mammoth::displayFeedGroups()
 void Mammoth::SelectFeedGroup(int feedGroupNum)
 {
     FeedGroup fg = m_feedGroups[feedGroupNum];
-    //m_feed_table->setFeedGroup(fg);
     m_feed_table->setFeeds(fg.getFeedList());
+    m_feed_table->setFeedGroupNumber(feedGroupNum);
     m_stackwidget->setCurrentWidget(m_feed_table);
     /*m_reader->populate(fg);*/
     /*m_reader->show();*/
@@ -173,9 +180,8 @@ void Mammoth::SelectFeedGroup(int feedGroupNum)
 
 void Mammoth::SelectFeed(int feedgroupNum, int feednum)
 {
-    auto f = m_feedGroups[feedgroupNum].getFeedList();
-    qDebug() << f.size();
-    //m_reader->setFeed(feed);
+    auto f = m_feedGroups[feedgroupNum].getFeedList()[feednum];
+    m_reader->setFeed(f);
     m_stackwidget->setCurrentWidget(m_reader);
     /*m_reader->populate(fg);*/
     /*m_reader->show();*/

@@ -4,7 +4,7 @@
 
 #include "feedgroup.hpp"
 
-FeedGroup::FeedGroup(QString title)
+FeedGroup::FeedGroup(const QString title)
 :m_title(title)
 {
 
@@ -15,31 +15,31 @@ FeedGroup::FeedGroup()
 
 }
 
-void FeedGroup::setTitle(QString title)
+void FeedGroup::setTitle(const QString title)
 {
     m_title = title;
 }
 
-void FeedGroup::addFeed(Feed feed)
+void FeedGroup::addFeed(const Feed feed)
 {
 
 }
 
-void FeedGroup::removeFeed(int index)
+void FeedGroup::removeFeed(const int index)
 {
 
 }
 
-void FeedGroup::removeFeed(Feed feed)
+void FeedGroup::removeFeed(const Feed feed)
 {
 
 }
 
-void FeedGroup::setFeeds(Feed *feeds)
+void FeedGroup::setFeeds(const Feed *feeds)
 {
 }
 
-void FeedGroup::setFeeds(QVector<Feed> feeds)
+void FeedGroup::setFeeds(const QVector<Feed> &feeds)
 {
     m_feeds = feeds;
     m_fc = feeds.size();

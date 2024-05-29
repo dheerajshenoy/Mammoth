@@ -21,7 +21,7 @@ public:
     void Back();
     void setFeedGroupNumber(int fgn);
     void setFeedNumber(int fn);
-    void setFeeds(QVector<Feed> &feedlist);
+    void setFeeds(QVector<Feed> feedlist);
 
 signals:
     void feedSelected(int groupnum, int row);

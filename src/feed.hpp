@@ -8,7 +8,7 @@ class Feed
 {
 
 public:
-    Feed(QString title, QString content, QString desc, QDateTime dt, QString link);
+    Feed(const QString title, const QString content, const QString desc, const QDateTime dt, const QString link);
     Feed();
     ~Feed();
 
@@ -17,7 +17,7 @@ public:
     const QString getLink() { return link; } 
     const QString getTitle() { return title; }
     const QString getContent() { return content; }
-    void setInfo(QString title, QString content, QString desc, QDateTime dt, QString link);
+    void setInfo(const QString title, const QString content, const QString desc, const QDateTime dt, const QString link);
 
 
 private:

@@ -18,7 +18,7 @@ public:
     FeedReader(QWidget *parent = nullptr);
     ~FeedReader();
 
-    void setFeed(Feed &feed);
+    void setFeed(Feed feed);
     void populate();
     void ScrollDown();
     void ScrollUp();
@@ -33,6 +33,7 @@ private:
     QVBoxLayout *m_layout = new QVBoxLayout();
     Feed m_feed;
     QWebEngineView *webview = new QWebEngineView();
+    QPushButton *prevBtn = new QPushButton("Previous Page");
 };
 
 #endif // FEEDREADER_HPP

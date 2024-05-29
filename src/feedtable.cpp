@@ -66,10 +66,9 @@ void FeedTable::GotoItem(int i)
     }
 }
 
-void FeedTable::setFeeds(QVector <Feed> &feedlist)
+void FeedTable::setFeeds(QVector <Feed> feedlist)
 {
     this->setRowCount(feedlist.size());
-
     for(int i=0; i < feedlist.size(); i++)
     {
         QTableWidgetItem *date = new QTableWidgetItem(feedlist[i].getDate().toString());
@@ -78,6 +77,8 @@ void FeedTable::setFeeds(QVector <Feed> &feedlist)
         this->setItem(i, 0, date);
         this->setItem(i, 1, title);
     }
+
+    this->setCurrentCell(m_cur_y, 1);
 }
 
 void FeedTable::setFeedGroupNumber(int fgn)

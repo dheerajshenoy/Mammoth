@@ -6,11 +6,12 @@
 Feed::Feed()
 {}
 
-Feed::Feed(QString _title, QString _content, QString _desc, QDateTime _dt, QString _link)
+Feed::Feed(const QString _title, const QString _content, const QString _desc,
+           const QDateTime _dt, const QString _link)
 :title(_title), content(_content), desc(_desc), datetime(_dt), link(_link)
 {}
 
-void Feed::setInfo(QString title, QString content, QString desc, QDateTime dt, QString link)
+void Feed::setInfo(const QString title, const QString content, const QString desc, const QDateTime dt, const QString link)
 {
     this->title = title;
     this->content = content;
@@ -34,3 +35,4 @@ Feed::~Feed()
 }
 
 #endif
+

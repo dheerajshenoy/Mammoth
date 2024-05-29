@@ -12,16 +12,16 @@ class FeedGroup
     FeedGroup(QString title);
     ~FeedGroup();
 
-    void setTitle(QString title);
-    void addFeed(Feed feed);
-    void removeFeed(Feed feed);
-    void removeFeed(int index);
-    void setFeeds(QVector<Feed> feeds);
-    void setFeeds(Feed *feeds);
+    void setTitle(const QString title);
+    void addFeed(const Feed feed);
+    void removeFeed(const Feed feed);
+    void removeFeed(const int index);
+    void setFeeds(const QVector<Feed> &feeds);
+    void setFeeds(const Feed *feeds);
     void displayFeeds();
     int getFeedCount() { return m_fc; }
     QString getTitle() { return m_title; }
-    void setFeedCount(int count) { m_fc = count; }
+    void setFeedCount(const int count) { m_fc = count; }
     const QVector<Feed> getFeedList() { return m_feeds; }
 
 private:
