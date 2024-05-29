@@ -19,6 +19,9 @@ public:
     void SelectItem();
     void setFeedGroup(FeedGroup group);
 
+    void SaveCursor();
+    void RestoreCursor();
+
 signals:
     void feedSelected(int row);
 
@@ -28,6 +31,7 @@ protected:
 private:
 
     int m_cur_y = 0;
+    int m_cur_y_sav;
 };
 
 #endif

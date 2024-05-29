@@ -92,6 +92,17 @@ void FeedTable::setFeedNumber(int fn)
 
 }
 
+
+void FeedTable::RestoreCursor()
+{
+    setCurrentCell(m_cur_y_sav, 0);
+}
+
+void FeedTable::SaveCursor()
+{
+    m_cur_y_sav = m_cur_y;
+}
+
 FeedTable::~FeedTable()
 {
 

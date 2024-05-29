@@ -22,6 +22,8 @@ public:
     void setFeedGroupNumber(int fgn);
     void setFeedNumber(int fn);
     void setFeeds(QVector<Feed> feedlist);
+    void SaveCursor();
+    void RestoreCursor();
 
 signals:
     void feedSelected(int groupnum, int row);
@@ -33,8 +35,10 @@ protected:
 private:
 
     int m_cur_y = 0;
+    int m_cur_y_sav;
     int m_fn;
     int m_fgn;
+    
 };
 
 #endif

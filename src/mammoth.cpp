@@ -24,7 +24,13 @@ void Mammoth::InitGui()
     m_stackwidget->addWidget(m_feed_table);
     m_stackwidget->addWidget(m_reader);
     m_stackwidget->setCurrentWidget(m_feedgroup_table);
-    this->setCentralWidget(m_stackwidget);
+
+    m_layout->addWidget(m_stackwidget, 1);
+    m_layout->addWidget(m_panel);
+
+    m_widget->setLayout(m_layout);
+
+    this->setCentralWidget(m_widget);
 }
 
 void Mammoth::ReadFeeds()
@@ -38,11 +44,13 @@ void Mammoth::ReadFeeds()
 
 void Mammoth::FetchFeeds()
 {
+    m_panel->MSG("Fetching Feeds from Source");
     for(uint i=0; i < m_sources.size(); i++)
     //for(uint i=0; i < 1; i++)
     {
         m_networkManager->get(QNetworkRequest(QUrl(m_sources[i])));
     }
+    m_panel->MSG("Fetching Done");
 }
 
 void Mammoth::RefreshFeeds()
@@ -173,13 +181,16 @@ void Mammoth::SelectFeedGroup(int feedGroupNum)
     FeedGroup fg = m_feedGroups[feedGroupNum];
     m_feed_table->setFeeds(fg.getFeedList());
     m_feed_table->setFeedGroupNumber(feedGroupNum);
+    m_feedgroup_table->SaveCursor();
     m_stackwidget->setCurrentWidget(m_feed_table);
+    m_feed_table->RestoreCursor();
     /*m_reader->populate(fg);*/
     /*m_reader->show();*/
 }
 
 void Mammoth::SelectFeed(int feedgroupNum, int feednum)
 {
+    m_feed_table->SaveCursor();
     auto f = m_feedGroups[feedgroupNum].getFeedList()[feednum];
     m_reader->setFeed(f);
     m_stackwidget->setCurrentWidget(m_reader);
@@ -190,11 +201,13 @@ void Mammoth::SelectFeed(int feedgroupNum, int feednum)
 void Mammoth::ShowFeedGroupPage()
 {
     m_stackwidget->setCurrentWidget(m_feedgroup_table);
+    m_feedgroup_table->RestoreCursor();
 }
 
 void Mammoth::ShowFeedsPage()
 {
     m_stackwidget->setCurrentWidget(m_feed_table);
+    m_feed_table->RestoreCursor();
 }
 
 Mammoth::~Mammoth()

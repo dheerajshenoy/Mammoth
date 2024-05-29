@@ -25,6 +25,11 @@ void FeedGroup::addFeed(const Feed feed)
 
 }
 
+void FeedGroup::SetCursorPos(int pos)
+{
+    cursor_pos = pos;
+}
+
 void FeedGroup::removeFeed(const int index)
 {
 

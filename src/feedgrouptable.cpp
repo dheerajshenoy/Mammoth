@@ -48,6 +48,17 @@ void FeedGroupTable::SelectItem()
     emit feedSelected(m_cur_y);
 }
 
+void FeedGroupTable::RestoreCursor()
+{
+    setCurrentCell(m_cur_y_sav, 0);
+    setFocus();
+}
+
+void FeedGroupTable::SaveCursor()
+{
+    m_cur_y_sav = m_cur_y;
+}
+
 void FeedGroupTable::GotoItem(int i)
 {
     if (m_cur_y + i < this->rowCount() && m_cur_y + i > -1)

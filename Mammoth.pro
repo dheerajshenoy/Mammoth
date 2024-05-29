@@ -19,11 +19,13 @@ HEADERS += src/feed.hpp \
            src/feedgrouptable.hpp \
            src/feedreader.hpp \
            src/feedtable.hpp \
-           src/mammoth.hpp
+           src/mammoth.hpp \
+           src/panel.hpp
 SOURCES += src/feed.cpp \
            src/feedgroup.cpp \
            src/feedgrouptable.cpp \
            src/feedreader.cpp \
            src/feedtable.cpp \
            src/main.cpp \
-           src/mammoth.cpp
+           src/mammoth.cpp \
+           src/panel.cpp

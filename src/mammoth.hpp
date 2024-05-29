@@ -25,6 +25,7 @@
 #include "feedtable.hpp"
 #include "feedreader.hpp"
 #include "feedgrouptable.hpp"
+#include "panel.hpp"
 
 class Mammoth : public QMainWindow
 {
@@ -47,6 +48,7 @@ class Mammoth : public QMainWindow
     void ShowFeedsPage();
 
 private:
+    QVBoxLayout *m_layout = new QVBoxLayout();
     QStackedWidget *m_stackwidget = new QStackedWidget();
     QStringList m_sources = {};
     FeedGroupTable *m_feedgroup_table = new FeedGroupTable();
@@ -58,6 +60,8 @@ private:
 
     int m_cur_y = 0;
     FeedReader *m_reader = new FeedReader();
+    Panel *m_panel = new Panel();
+    QWidget *m_widget = new QWidget();
 };
 
 #endif

@@ -23,11 +23,13 @@ class FeedGroup
     QString getTitle() { return m_title; }
     void setFeedCount(const int count) { m_fc = count; }
     const QVector<Feed> getFeedList() { return m_feeds; }
+    void SetCursorPos(int pos);
 
 private:
     QVector<Feed> m_feeds;
     QString m_title;
     int m_fc; // Feed Count
+    int cursor_pos;
 };
 
 #endif
