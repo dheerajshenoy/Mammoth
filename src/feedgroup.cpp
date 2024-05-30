@@ -55,6 +55,17 @@ void FeedGroup::displayFeeds()
 
 }
 
+uint FeedGroup::getReadCount()
+{
+    uint count = 0;
+    for(int i=0; i < m_feeds.size(); i++)
+    {
+        if (m_feeds[i].isRead())
+            count++;
+    }
+    return count;
+}
+
 FeedGroup::~FeedGroup()
 {
 

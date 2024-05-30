@@ -22,8 +22,9 @@ class FeedGroup
     int getFeedCount() { return m_fc; }
     QString getTitle() { return m_title; }
     void setFeedCount(const int count) { m_fc = count; }
-    const QVector<Feed> getFeedList() { return m_feeds; }
+    QVector<Feed> getFeedList() { return m_feeds; }
     void SetCursorPos(int pos);
+    uint getReadCount();
 
 private:
     QVector<Feed> m_feeds;

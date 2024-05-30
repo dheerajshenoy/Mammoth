@@ -29,6 +29,16 @@ void Feed::setInfo(const QString title, const QString content, const QString des
 /*    this->link = f.getLink();*/
 /*}*/
 
+void Feed::setRead(bool r)
+{
+    m_read = r;
+}
+
+bool Feed::isRead()
+{
+    return m_read;
+}
+
 Feed::~Feed()
 {
 

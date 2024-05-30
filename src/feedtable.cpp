@@ -54,6 +54,8 @@ void FeedTable::Back()
 
 void FeedTable::SelectItem()
 {
+    auto item = this->currentItem();
+    item->setBackground(QColor::fromRgb(100, 0, 0));
     emit feedSelected(m_fgn, m_cur_y);
 }
 
@@ -68,11 +70,19 @@ void FeedTable::GotoItem(int i)
 
 void FeedTable::setFeeds(QVector <Feed> feedlist)
 {
+    m_feeds = feedlist;
     this->setRowCount(feedlist.size());
     for(int i=0; i < feedlist.size(); i++)
     {
-        QTableWidgetItem *date = new QTableWidgetItem(feedlist[i].getDate().toString());
-        QTableWidgetItem *title = new QTableWidgetItem(feedlist[i].getTitle());
+        auto f = feedlist[i];
+        QTableWidgetItem *date = new QTableWidgetItem(f.getDate().toString());
+        QTableWidgetItem *title = new QTableWidgetItem(f.getTitle());
+
+        if (f.isRead())
+        {
+            date->setBackground(QColor::fromRgb(100, 0, 0));
+            title->setBackground(QColor::fromRgb(100, 0, 0));
+        }
 
         this->setItem(i, 0, date);
         this->setItem(i, 1, title);
@@ -101,6 +111,22 @@ void FeedTable::RestoreCursor()
 void FeedTable::SaveCursor()
 {
     m_cur_y_sav = m_cur_y;
+}
+
+void FeedTable::showEvent(QShowEvent *e)
+{
+    QWidget::showEvent(e);
+    // Reapply the background color when the widget is shown
+    for(int i=0; i < rowCount(); i++)
+    {
+        for(int j=0; j < columnCount(); j++)
+        {
+            if (m_feeds[i].isRead())
+            {
+                this->itemAt(i, j)->setBackground(QColor::fromRgb(100, 0, 0));
+            }
+        }
+    }
 }
 
 FeedTable::~FeedTable()

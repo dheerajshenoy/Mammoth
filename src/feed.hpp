@@ -17,7 +17,10 @@ public:
     const QString getLink() { return link; } 
     const QString getTitle() { return title; }
     const QString getContent() { return content; }
+    void setRead(bool);
+    bool isRead();
     void setInfo(const QString title, const QString content, const QString desc, const QDateTime dt, const QString link);
+    
 
 
 private:
@@ -26,6 +29,7 @@ private:
     QString desc;
     QString link;
     QDateTime datetime;
+    bool m_read = false;
     int fc;
 };
 #endif // !FEED_HPP

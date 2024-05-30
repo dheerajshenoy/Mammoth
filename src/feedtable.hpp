@@ -4,6 +4,7 @@
 #include <qt6/QtWidgets/QTableWidget>
 #include <qt6/QtWidgets/QWidget>
 #include <qt6/QtGui/QKeyEvent>
+#include <qt6/QtGui/QShowEvent>
 #include <qt6/QtWidgets/QHeaderView>
 #include <qt6/QtCore/QVector>
 #include "feed.hpp"
@@ -31,6 +32,7 @@ signals:
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
+    void showEvent(QShowEvent *e) override;
 
 private:
 
@@ -38,7 +40,7 @@ private:
     int m_cur_y_sav;
     int m_fn;
     int m_fgn;
-    
+    QVector<Feed> m_feeds;
 };
 
 #endif

@@ -170,6 +170,13 @@ void Mammoth::displayFeedGroups()
 
         auto d = fg.getFeedList()[0];
 
+
+        if (d.isRead())
+        {
+            feedcount->setBackground(QColor::fromRgb(100, 0, 0));
+            title->setBackground(QColor::fromRgb(100, 0, 0));
+        }
+
         m_feedgroup_table->setItem(i, 0, feedcount);
         m_feedgroup_table->setItem(i, 1, title);
     }
@@ -179,6 +186,7 @@ void Mammoth::displayFeedGroups()
 void Mammoth::SelectFeedGroup(int feedGroupNum)
 {
     FeedGroup fg = m_feedGroups[feedGroupNum];
+    qDebug() << "Read = " << fg.getReadCount();
     m_feed_table->setFeeds(fg.getFeedList());
     m_feed_table->setFeedGroupNumber(feedGroupNum);
     m_feedgroup_table->SaveCursor();
@@ -191,8 +199,9 @@ void Mammoth::SelectFeedGroup(int feedGroupNum)
 void Mammoth::SelectFeed(int feedgroupNum, int feednum)
 {
     m_feed_table->SaveCursor();
-    auto f = m_feedGroups[feedgroupNum].getFeedList()[feednum];
-    m_reader->setFeed(f);
+    Feed *f = &m_feedGroups[feedgroupNum].getFeedList()[feednum];
+    f->setRead(true);
+    m_reader->setFeed(*f);
     m_stackwidget->setCurrentWidget(m_reader);
     /*m_reader->populate(fg);*/
     /*m_reader->show();*/
